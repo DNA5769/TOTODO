@@ -11,6 +11,14 @@ class App extends Component {
     };
   }
 
+  componentDidMount()
+  {
+    fetch('http://localhost:8000/api/read-tasks/')
+      .then(response => response.json())
+      .then(data => this.setState({ todos: data }))
+      .catch(e => console.log(e));
+  }
+
   handleChange = (e) => {
     this.setState({
       'title': e.target.value
@@ -23,6 +31,11 @@ class App extends Component {
         <form>
           <input onChange={this.handleChange} type="text" name="title" value={this.state.title}/>
         </form>
+        {this.state.todos.map(function(todo) {
+          return (
+            <h1>{todo.title}</h1>
+          );
+        })}
       </div>
     );
   }
