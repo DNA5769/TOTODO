@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -8,7 +8,13 @@ from .serializers import TaskSerializer
 
 # Create your views here.
 def index(req):
-    return HttpResponse('<h1>Hello World</h1>')
+    routes = {
+        'C': 'create-task/',
+        'R': 'read-tasks/',
+        'U': 'update-task/<int:pk>/',
+        'D': 'delete-task/<int:pk>/',
+    }
+    return JsonResponse(routes)
 
 @api_view(['POST'])
 def createTask(req):
@@ -38,7 +44,9 @@ def updateTask(req, pk):
 
 @api_view(['DELETE'])
 def deleteTask(req, pk):
-    task = Task.objects.get(id=pk)
-    task.delete()
-
-    return Response("Item deleted successfully")
+    try:
+        task = Task.objects.get(id=pk)
+        task.delete()
+        return Response("Item deleted successfully")
+    except Task.DoesNotExist:
+        return Response("Item doesn't exist")
