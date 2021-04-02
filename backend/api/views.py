@@ -22,8 +22,9 @@ def createTask(req):
 
     if serializer.is_valid():
         serializer.save()
-
-    return Response(serializer.data)
+        return Response(serializer.data)
+    else:
+        return Response("Invalid data")
 
 @api_view(['GET'])
 def readTasks(req):
@@ -34,13 +35,17 @@ def readTasks(req):
 
 @api_view(['PUT'])
 def updateTask(req, pk):
-    task = Task.objects.get(id=pk)
-    serializer = TaskSerializer(instance=task, data=req.data)
+    try:
+        task = Task.objects.get(id=pk)
+        serializer = TaskSerializer(instance=task, data=req.data)
 
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response("Invalid data")
+    except Task.DoesNotExist:
+        return Response("Item doesn't exist")
 
 @api_view(['DELETE'])
 def deleteTask(req, pk):
