@@ -68,10 +68,20 @@ class App extends Component {
 
   handleUpdate = (id, title) => {
     this.setState({
-      title: title,
+      title,
       editing: true,
       editingID: id,
     });
+  }
+
+  handleCompleted = (id, title, completed) => {
+    fetch(`http://localhost:8000/api/update-task/${id}/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title, completed: !completed })
+    }).then(response => this.componentDidMount());
   }
 
   render() {
@@ -83,10 +93,11 @@ class App extends Component {
         </form>
         {this.state.todos.map(function(todo) {
           return (
-            <div>
-              <h1>{todo.title}</h1>
+            <div key={todo.id}>
+              <h1>{todo.completed ? <del><em>{todo.title}</em></del> : todo.title}</h1>
               <button onClick={() => self.handleDelete(todo.id)}>Delete</button>
               <button onClick={() => self.handleUpdate(todo.id, todo.title)}>Update</button>
+              <button onClick={() => self.handleCompleted(todo.id, todo.title, todo.completed)}>Completed Togglez</button>
             </div>
           );
         })}
