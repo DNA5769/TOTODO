@@ -34,13 +34,22 @@ class App extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ title: this.state.title })
-    });
+    }).then(response => response.json()).then(data => this.setState(state => {
+      return {
+        title: '',
+        todos: [...state.todos, data],
+      };
+    }));
+  }
 
-    this.setState({ title: '' });
-    this.componentDidMount();
+  handleDelete = id => {
+    fetch(`http://localhost:8000/api/delete-task/${id}/`, { method: 'DELETE' })
+      .then(response => response.json())
+      .then(data => this.componentDidMount());
   }
 
   render() {
+    var self = this;
     return (
       <div className="box">
         <form onSubmit={this.handleSubmit}>
@@ -48,7 +57,10 @@ class App extends Component {
         </form>
         {this.state.todos.map(function(todo) {
           return (
-            <h1>{todo.title}</h1>
+            <div>
+              <h1>{todo.title}</h1>
+              <button onClick={() => self.handleDelete(todo.id)}>Delete</button>
+            </div>
           );
         })}
       </div>
