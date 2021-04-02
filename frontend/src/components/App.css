@@ -1,6 +1,63 @@
 body {
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-color: #f8002f;
-  background-image: linear-gradient(326deg, #f8002f 0%, #000c14 74%);
+  color: white;
+  background-color: black;
+  font-size: 24px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+
+  width: 90%;
+  margin: 10vh auto;
+}
+
+.box > form {
+  margin-bottom: 20px;
+  align-self: center;
+}
+
+.box input {
+  background-color: black;
+  border: solid white 1px;
+  color: white;
+}
+
+.box input:focus {
+  outline: none;
+}
+
+.task {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0;
+  align-items: center;
+}
+
+.task > i {
+  cursor: pointer;
+}
+
+.taskitem {
+  margin: 0 10px;
+}
+
+.title {
+  margin-left: 10px;
+}
+
+.gg-pen {
+  position: relative;
+  bottom: 1px;
+  color: lightseagreen;
+}
+
+.gg-trash {
+  position: relative;
+  top: 1px;
+  color: rgb(231, 43, 43);
+}
+
+.gg-check-r {
+  color: rgb(78, 192, 78);
 }

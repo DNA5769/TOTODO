@@ -93,11 +93,12 @@ class App extends Component {
         </form>
         {this.state.todos.map(function(todo) {
           return (
-            <div key={todo.id}>
-              <h1>{todo.completed ? <del><em>{todo.title}</em></del> : todo.title}</h1>
-              <button onClick={() => self.handleDelete(todo.id)}>Delete</button>
-              <button onClick={() => self.handleUpdate(todo.id, todo.title)}>Update</button>
-              <button onClick={() => self.handleCompleted(todo.id, todo.title, todo.completed)}>Completed Togglez</button>
+            <div className="task" key={todo.id}>
+              <i className="gg-check-r taskitem" onClick={() => self.handleCompleted(todo.id, todo.title, todo.completed)}></i>
+              <i className="gg-pen taskitem" onClick={() => self.handleUpdate(todo.id, todo.title)}></i>
+              <i className="gg-trash taskitem" onClick={() => self.handleDelete(todo.id)}></i>
+
+              <div className="title">{todo.completed ? <del><em>{todo.title}</em></del> : todo.title}</div>
             </div>
           );
         })}
