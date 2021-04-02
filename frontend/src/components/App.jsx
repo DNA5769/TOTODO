@@ -21,14 +21,29 @@ class App extends Component {
 
   handleChange = (e) => {
     this.setState({
-      'title': e.target.value
+      title: e.target.value
     });
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    fetch('http://localhost:8000/api/create-task/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title: this.state.title })
+    });
+
+    this.setState({ title: '' });
+    this.componentDidMount();
   }
 
   render() {
     return (
       <div className="box">
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <input onChange={this.handleChange} type="text" name="title" value={this.state.title}/>
         </form>
         {this.state.todos.map(function(todo) {
